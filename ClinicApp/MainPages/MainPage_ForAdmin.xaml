@@ -1,0 +1,102 @@
+﻿<Page x:Class="ClinicApp.MainPage_ForAdmin"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ClinicApp"
+      mc:Ignorable="d" 
+       Height="500" Width="1200"
+      Title="MainPage_ForAdmin">
+
+    <Grid Background="White">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55"/>
+            <ColumnDefinition Width="1145*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1" >
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="200"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="200"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0" Grid.Column="0" Name="Move_ToPatients" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                    <Image Source="icons/clients.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Пациенты" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="0" Name="Move_ToDischarges" MouseLeftButtonUp="Move_ToDischarges_MouseLeftButtonUp">
+
+                    <Image Source="icons/discharge.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Выписки" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="1" Name="Move_ToAppointments" MouseLeftButtonUp="Move_ToAppointments_MouseLeftButtonUp">
+                    <Image Source="icons/appointment.png" Height="120" Width="120" Margin="0,0,0,60" ></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Записи" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="2" Name="Move_ToAppointmentsFin" MouseLeftButtonUp="Move_ToAppointmentsFin_MouseLeftButtonUp">
+                    <Image Source="icons/appointment_fin.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Результаты записей" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="32,141,0,0" Width="218" TextAlignment="Center"/>
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="3" Name="Move_ToMedCards" MouseLeftButtonUp="Move_ToMedCards_MouseLeftButtonUp">
+                    <Image Source="icons/med_card.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Мед. карты" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="1" Name="Move_ToMedicines" MouseLeftButtonUp="Move_ToMedicines_MouseLeftButtonUp">
+                    <Image Source="icons/pills.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Препараты" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="2" Name="Move_ToSchedules" MouseLeftButtonUp="Move_ToSchedules_MouseLeftButtonUp">
+                    <Image Source="icons/sched.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Расписания" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="3" Name="Move_ToEmployees" MouseLeftButtonUp="Move_ToEmployees_MouseLeftButtonUp">
+                    <Image Source="icons/employees.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Работники" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="4" Grid.Column="0" Name="Move_ToJobTitles" MouseLeftButtonUp="Move_ToJobTitles_MouseLeftButtonUp">
+                    <Image Source="icons/job_titles.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Должности" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="4" Grid.Column="1" Name="Move_ToSpec" MouseLeftButtonUp="Move_ToSpec_MouseLeftButtonUp">
+                    <Image Source="icons/speciality.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Специальности" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="4" Grid.Column="2" Name="Move_ToServices" MouseLeftButtonUp="Move_ToServices_MouseLeftButtonUp">
+                    <Image Source="icons/service.png" Height="120" Width="120" Margin="0,0,0,60"></Image>
+                    <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Услуги" VerticalAlignment="Top" FontSize="25" FontFamily="Montserrat" Margin="0,156,0,0"/>
+                </Grid>
+
+
+
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

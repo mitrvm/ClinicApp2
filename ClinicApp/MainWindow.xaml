@@ -1,0 +1,145 @@
+﻿<Window x:Class="ClinicApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClinicApp"
+        mc:Ignorable="d"
+        Icon="icons/clinic.png"
+        Title="ClinicApp" Height="700" Width="1200">
+    <Grid>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="67*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Clinic" VerticalAlignment="Center" FontSize="35" FontFamily="Montserrat" FontWeight="Bold"/>
+        <Grid Background="#1B98E0" Panel.ZIndex="-2" x:Name="topPanel" MouseDown="topPanel_MouseDown">
+           
+        </Grid>
+        <Grid Grid.Row="2" Background="#247BA0"></Grid>
+
+        
+        <Frame Grid.Row="1" Name="MainFrame" NavigationUIVisibility="Hidden"></Frame>
+        
+        
+        
+        <!--#006494    #13293D   -->
+
+        <Grid HorizontalAlignment="Left" Width="190" Grid.RowSpan="3" Background="#006494" x:Name="sidePanel">
+            <StackPanel>
+                <Grid Height="103" Background="#006494">
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="30"  Background="Transparent" BorderBrush="Transparent" Click="Button_Click" Margin="0 10 10 0">
+                    <Image Source="icons/menu.png"/>
+                </Button>
+                </Grid>
+                <ListView BorderBrush="Transparent" Background="Transparent"  Name="sdd" FontSize="20" FontFamily="Montserrat" Foreground="white" FontWeight="Bold" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    
+                    <ListViewItem Height="30" Name="Tab_Home_P" Visibility="Collapsed" MouseLeftButtonUp="Tab_Home_P_MouseLeftButtonUp">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="icons/Home.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Home</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="30" Name="Tab_Home_D" Visibility="Collapsed" MouseLeftButtonUp="Tab_Home_D_MouseLeftButtonUp">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="icons/Home.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Home</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="30" Name="Tab_Home_A" Visibility="Collapsed" MouseLeftButtonUp="Tab_Home_A_MouseLeftButtonUp">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="icons/Home.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Home</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="30" Margin="0 10 0 0" Name="Tab_Pat" MouseLeftButtonUp="Tab_Pat_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/clients_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Patients</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="30" VerticalContentAlignment="Center" Margin="0 10 0 0" Name="Tab_Appoint" MouseLeftButtonUp="Tab_Appoint_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" > 
+                            <Image Source="icons/appointment_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0"  Width="130" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="17">Appointments</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="auto" Margin="0 10 0 0" VerticalContentAlignment="Center" Name="Tab_Appoint_Fin" MouseLeftButtonUp="Tab_Appoint_Fin_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/appointment_fin_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0"  Height="auto" Width="130" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="17">Appointment results</TextBlock>
+
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="auto" Margin="0 10 0 0" Name="Tab_Med_Card" MouseLeftButtonUp="Tab_Med_Card_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/med_card_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Medical cards</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="30" Margin="0 10 0 0" Name="Tab_Dis" MouseLeftButtonUp="Tab_Dis_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/discharge_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Discharges</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="30" Margin="0 10 0 0" Name="Tab_Medicine" MouseLeftButtonUp="Tab_Medicine_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/pills_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Medicine</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="30" Margin="0 10 0 0" Name="Tab_Sched" MouseLeftButtonUp="Tab_Sched_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/sched_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Schedule</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="30" Margin="0 10 0 0" Name="Tab_Emp" MouseLeftButtonUp="Tab_Emp_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/employees_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Employees</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="30" Margin="0 10 0 0" Name="Tab_Job_T" MouseLeftButtonUp="Tab_Job_T_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/job_titles_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Job Titles</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="30" Margin="0 10 0 0" Name="Tab_Spec" MouseLeftButtonUp="Tab_Spec_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/speciality-2.png" Height="25" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Specialities</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Height="30" Margin="0 10 0 0" Name="Tab_Serv" MouseLeftButtonUp="Tab_Serv_MouseLeftButtonUp" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/service_2.png" Height="30" VerticalAlignment="Center" Margin="5 0 0 0"></Image>
+                            <TextBlock Margin="12 0 0 0" VerticalAlignment="Center" FontSize="17">Services</TextBlock>
+                        </StackPanel>
+                    </ListViewItem>
+
+
+                </ListView>
+            </StackPanel>
+
+        </Grid>
+        
+    </Grid>
+    
+</Window>
