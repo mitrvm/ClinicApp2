@@ -12,20 +12,32 @@
 
 
         <Grid.RowDefinitions>
+
+            <RowDefinition Height="45*"/>
             <RowDefinition Height="377*"/>
             <RowDefinition Height="43*"/>
 
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="DGrid_Appointments" AutoGenerateColumns="False" IsReadOnly="True" Margin="0 0 15 0">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center" Margin="10 0 0 0" HorizontalAlignment="Left">
+            <TextBlock Text="Search ID: "  TextAlignment="Right"  FontFamily="Montserrat" VerticalAlignment="Center"></TextBlock>
+            <TextBox Width="250" Name="TBoxSearch" Margin="10 0 0 0"  FontFamily="Montserrat" VerticalContentAlignment="Center" Height="20" TextChanged="TBoxSearch_TextChanged"></TextBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="395,0,0,0">
+            <TextBlock Text="Search Status: "  TextAlignment="Right"  FontFamily="Montserrat" VerticalAlignment="Center"></TextBlock>
+            <ComboBox Width="250" Margin="10 0 0 0" Name="SearchS"  FontFamily="Montserrat" VerticalContentAlignment="Center" Height="20" SelectionChanged="TBoxSearchS_SelectionChanged"></ComboBox>
+        </StackPanel>
+
+        <DataGrid x:Name="DGrid_Appointments" AutoGenerateColumns="False" IsReadOnly="True" Margin="0 0 15 0" Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Width="50" Binding="{Binding ID}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Doctor ID"  Width="*" Binding="{Binding Doctor_ID}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Patient ID"  Width="*" Binding="{Binding Patient_ID}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Service ID"  Width="*" Binding="{Binding ID}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Doctor"  Width="*" Binding="{Binding Doctor_ID}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Patient"  Width="*" Binding="{Binding Patient_ID}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Service"  Width="*" Binding="{Binding Service_ID}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Date"  Width="*" Binding="{Binding Date}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Status"  Width="*" Binding="{Binding Status}"></DataGridTextColumn>
-                <DataGridTemplateColumn Width="auto">
+                <DataGridTemplateColumn Width="auto" x:Name="editBtnCol">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Редактировать" Name="BtnEdit" Click="BtnAddApp_Click"></Button>
@@ -35,7 +47,7 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        <Button Content="Add" Grid.Row="1" FontFamily="Montserrat" HorizontalAlignment="Right" Name="BtnAddApp" Width="80" Height="30" Margin="0 0 25 0" Background="#006494"  Foreground="white" FontSize="12" Click="BtnAddApp_Click">
+        <Button Content="Add" Grid.Row="2" FontFamily="Montserrat" HorizontalAlignment="Right" Name="BtnAddAppfff" Width="80" Height="30" Margin="0 0 25 0" Background="#006494"  Foreground="white" FontSize="12" Click="BtnAddAppfff_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="7"/>
@@ -43,7 +55,7 @@
             </Button.Resources>
         </Button>
 
-        <Button Content="Delete" Grid.Row="1" FontFamily="Montserrat" HorizontalAlignment="Left" Width="80" Height="30" Margin="933,13,0,13" Background="#006494"  Foreground="white" FontSize="12" Name="Btn_DelApp" Click="Btn_DelApp_Click">
+        <Button Content="Delete" Grid.Row="2" FontFamily="Montserrat" HorizontalAlignment="Left" Width="80" Height="30" Margin="933,11,0,10" Background="#006494"  Foreground="white" FontSize="12" Name="Btn_DelApp" Click="Btn_DelApp_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="7"/>

@@ -28,13 +28,13 @@ namespace ClinicApp
         public Nullable<int> Specialty_ID { get; set; }
         public string DB_Password { get; set; }
     
-        public virtual C_Job_titles C_Job_titles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointments> Appointments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Discharges> Discharges { get; set; }
+        public virtual Job_titles Job_titles { get; set; }
+        public virtual Specialities Specialities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Schedules> Schedules { get; set; }
-        public virtual Specialities Specialities { get; set; }
     }
 }

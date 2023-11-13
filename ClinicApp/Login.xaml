@@ -21,8 +21,16 @@
 
         <PasswordBox x:Name="password_input"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="381" Height="32" FontFamily="Montserrat" VerticalContentAlignment="Center" Margin="30,242,0,0" FontSize="16">
             <PasswordBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"/>
+                <Style x:Key="{x:Type PasswordBox}" TargetType="{x:Type PasswordBox}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                <Border CornerRadius="6" BorderThickness="1" BorderBrush="Gray">
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </PasswordBox.Resources>
         </PasswordBox>

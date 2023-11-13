@@ -29,8 +29,8 @@ namespace ClinicApp
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment_results> Appointment_results { get; set; }
-        public virtual Patients Patients { get; set; }
         public virtual Employees Employees { get; set; }
+        public virtual Patients Patients { get; set; }
         public virtual Services Services { get; set; }
     }
 }

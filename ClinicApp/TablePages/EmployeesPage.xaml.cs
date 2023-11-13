@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicApp.AddEditPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,27 +24,90 @@ namespace ClinicApp.TablePages
         public EmployeesPage()
         {
             InitializeComponent();
-            DGrid_Employees.ItemsSource = ClinicEntities1.GetContext().Employees.ToList();
+
+            var allJTs = ClinicEntities.GetContext().Job_titles.ToList();
+            allJTs.Insert(0, new Job_titles {Job_title = "Все"});
+            TBoxSearchJT.ItemsSource = allJTs;
+
+            var allSpecs = ClinicEntities.GetContext().Specialities.ToList();
+            allSpecs.Insert(0, new Specialities {Speciality  = "Все"});
+            TBoxSearchSp.ItemsSource = allSpecs;
+
+            UpdEmp();
+        }
+        
+        private void UpdEmp()
+        {
+            var currentEmp = ClinicEntities.GetContext().Employees.ToList();
+
+            if (TBoxSearchJT.SelectedIndex > 0)
+            {
+                currentEmp = currentEmp.Where(p => p.Job_title_ID.Equals(TBoxSearchJT.SelectedIndex)).ToList();
+            }
+            if (TBoxSearchSp.SelectedIndex > 0)
+            {
+                currentEmp = currentEmp.Where(p => p.Specialty_ID.Equals(TBoxSearchSp.SelectedIndex)).ToList();
+            }
+            if (TBoxSearch.Text.Length > 0)
+            {
+                currentEmp = currentEmp.Where(p => p.Full_name.ToString().ToLower().Contains(TBoxSearch.Text)).ToList();
+            }
+
+
+            var currentEmp1 = currentEmp.Select(p => new
+            {
+                ID = p.ID,
+                Full_name = p.Full_name,
+                Specialty_ID = p.Specialities?.Speciality,
+                Job_title_ID = p.Job_titles.Job_title
+            });
+
+
+
+            DGrid_Employees.ItemsSource = currentEmp1;
         }
 
         private void Btn_DelEmp_Click(object sender, RoutedEventArgs e)
         {
             var empForRemoving = DGrid_Employees.SelectedItems.Cast<Employees>().ToList();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {empForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) ;
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {empForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities1.GetContext().Employees.RemoveRange(empForRemoving);
-                    ClinicEntities1.GetContext().SaveChanges();
+                    ClinicEntities.GetContext().Employees.RemoveRange(empForRemoving);
+                    ClinicEntities.GetContext().SaveChanges();
                     MessageBox.Show("Данные удалены");
-                    DGrid_Employees.ItemsSource = ClinicEntities1.GetContext().Employees.ToList();
+                    DGrid_Employees.ItemsSource = ClinicEntities.GetContext().Employees.ToList();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }
             }
+        }
+
+        private void BtnAddEmp_Click(object sender, RoutedEventArgs e)
+        {
+            var context = (sender as Button).DataContext;
+            int idStarts = Convert.ToInt32(context.ToString().Substring(7).Split()[0].Trim(new char[] { ',' })) - 1;
+            var Emps = ClinicEntities.GetContext().Employees.ToList()[idStarts];
+            Manager.MainFrame.Navigate(new AE_Employees(Emps as Employees));
+        }
+
+        private void TBoxSearchSp_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdEmp();
+        }
+
+        private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdEmp();
+        }
+
+        private void BtnAddEmpfff_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AE_Employees(null));
         }
     }
 }

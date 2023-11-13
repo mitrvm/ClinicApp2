@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicApp.AddEditPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,27 +24,82 @@ namespace ClinicApp.TablePages
         public MedicalCardPage()
         {
             InitializeComponent();
-            DGrid_MedicalCard.ItemsSource = ClinicEntities1.GetContext().Medical_card.ToList();
+            UpdMCard();
+
+            MainWindow ugh = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            if (ugh.UPat)
+            {
+                Btn_DelMedC.Visibility = BtnAddMCardffff.Visibility  = editBtnCol.Visibility = Visibility.Collapsed;
+                
+            }
+        }
+
+        private void UpdMCard()
+        {
+            var currentMCards = ClinicEntities.GetContext().Medical_card.ToList();
+
+            MainWindow ugh = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            if (ugh.UPat)
+            {
+                currentMCards = currentMCards.Where(p => p.Patient_ID.Equals(ugh.UID)).ToList();
+            }
+
+            var currentMCards1 = currentMCards.Select(p => new
+            {
+                ID = p.ID,
+                Patient_ID = p.Patients.Full_name,
+                Illness = p.Illness,
+                End_date = p.End_date,
+                Beginning_date = p.Beginning_date
+            });
+
+            if (TBoxSearch.Text.Length > 0)
+            {
+                currentMCards1 = currentMCards1.Where(p => p.Patient_ID.ToString().ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+            }
+
+            DGrid_MedicalCard.ItemsSource = currentMCards1;
         }
 
         private void Btn_DelMedC_Click(object sender, RoutedEventArgs e)
         {
             var medCardsForRemoving = DGrid_MedicalCard.SelectedItems.Cast<Medical_card>().ToList();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {medCardsForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) ;
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {medCardsForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities1.GetContext().Medical_card.RemoveRange(medCardsForRemoving);
-                    ClinicEntities1.GetContext().SaveChanges();
+                    ClinicEntities.GetContext().Medical_card.RemoveRange(medCardsForRemoving);
+                    ClinicEntities.GetContext().SaveChanges();
                     MessageBox.Show("Данные удалены");
-                    DGrid_MedicalCard.ItemsSource = ClinicEntities1.GetContext().Medical_card.ToList();
+                    DGrid_MedicalCard.ItemsSource = ClinicEntities.GetContext().Medical_card.ToList();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }
             }
+        }
+
+        private void BtnAddMCard_Click(object sender, RoutedEventArgs e)
+        {
+            var context = (sender as Button).DataContext;
+            int idStarts = Convert.ToInt32(context.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }))-1;
+            var MCard = ClinicEntities.GetContext().Medical_card.ToList()[idStarts];
+            Manager.MainFrame.Navigate(new AE_MedCard(MCard as Medical_card));
+        }
+
+
+
+        private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            UpdMCard();
+        }
+
+        private void BtnAddMCardffff_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AE_MedCard(null));
         }
     }
 }

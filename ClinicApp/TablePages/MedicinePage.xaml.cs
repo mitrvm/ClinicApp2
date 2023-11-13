@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicApp.AddEditPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,27 +24,48 @@ namespace ClinicApp.TablePages
         public MedicinePage()
         {
             InitializeComponent();
-            DGrid_Medicine.ItemsSource = ClinicEntities1.GetContext().Medicines.ToList();
+            UpdMedicine();
         }
+
+        private void UpdMedicine()
+        {
+            var currentMed = ClinicEntities.GetContext().Medicines.ToList();
+
+            currentMed = currentMed.Where(p => p.Medicine.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+
+            DGrid_Medicine.ItemsSource = currentMed;
+        }
+
 
         private void Btn_DelMedicine_Click(object sender, RoutedEventArgs e)
         {
             var medicineForRemoving = DGrid_Medicine.SelectedItems.Cast<Medicines>().ToList();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {medicineForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) ;
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {medicineForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities1.GetContext().Medicines.RemoveRange(medicineForRemoving);
-                    ClinicEntities1.GetContext().SaveChanges();
+                    ClinicEntities.GetContext().Medicines.RemoveRange(medicineForRemoving);
+                    ClinicEntities.GetContext().SaveChanges();
                     MessageBox.Show("Данные удалены");
-                    DGrid_Medicine.ItemsSource = ClinicEntities1.GetContext().Medicines.ToList();
+                    DGrid_Medicine.ItemsSource = ClinicEntities.GetContext().Medicines.ToList();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }
             }
+        }
+
+        private void BtnAddMed_Click(object sender, RoutedEventArgs e)
+        {
+
+            Manager.MainFrame.Navigate(new AE_Medicine((sender as Button).DataContext as Medicines));
+        }
+
+        private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdMedicine();
         }
     }
 }

@@ -104,5 +104,7 @@ namespace ClinicApp
             await Task.Delay(1000);
             Manager.MainFrame.Navigate(new AppointmentPage());
         }
+
+
     }
 }

@@ -19,7 +19,7 @@ namespace ClinicApp
         public int Doctor_ID { get; set; }
         public System.DateTime Discharge_date { get; set; }
     
-        public virtual Patients Patients { get; set; }
         public virtual Employees Employees { get; set; }
+        public virtual Patients Patients { get; set; }
     }
 }

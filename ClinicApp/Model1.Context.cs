@@ -13,18 +13,17 @@ namespace ClinicApp
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ClinicEntities1 : DbContext
+    public partial class ClinicEntities : DbContext
     {
-        private static ClinicEntities1 _context;
-        public ClinicEntities1()
-            : base("name=ClinicEntities1")
+        private static ClinicEntities _context;
+        public ClinicEntities()
+            : base("name=ClinicEntities")
         {
         }
-
-        public static ClinicEntities1 GetContext()
+        public static ClinicEntities GetContext()
         {
             if (_context == null)
-                _context = new ClinicEntities1();
+                _context = new ClinicEntities();
             return _context;
         }
 
@@ -33,17 +32,16 @@ namespace ClinicApp
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C_Job_titles> C_Job_titles { get; set; }
         public virtual DbSet<Appointment_results> Appointment_results { get; set; }
         public virtual DbSet<Appointments> Appointments { get; set; }
         public virtual DbSet<Discharges> Discharges { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<Job_titles> Job_titles { get; set; }
         public virtual DbSet<Medical_card> Medical_card { get; set; }
         public virtual DbSet<Medicines> Medicines { get; set; }
         public virtual DbSet<Patients> Patients { get; set; }
         public virtual DbSet<Schedules> Schedules { get; set; }
         public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<Specialities> Specialities { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

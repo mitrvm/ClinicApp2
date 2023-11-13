@@ -33,9 +33,9 @@ namespace ClinicApp
             if (Reg_username_input.Text.Length>0 && Reg_password_input.Password.Length>0 && Reg_confirm_password_input.Password.Length>0&& Reg_SNILS_input.Text.Length > 0 && Reg_BD_input.Text.Length > 0)
             {
                 allGood = true;
+
                 if (Reg_password_input.Password!=Reg_confirm_password_input.Password)
                 {
-                    
                     allGood= false;
                     ShowMSG("Passwords don't match.");
                 }
@@ -51,17 +51,16 @@ namespace ClinicApp
                     ShowMSG("SNILS must consist of 11 digits.");
                     
                 }
-
                 _newPat.Date_of_birth = DateTime.Parse(Reg_BD_input.SelectedDate.ToString());
                 _newPat.SNILS = Reg_SNILS_input.Text;
                 _newPat.DB_Password = Reg_password_input.Password;
 
                 if (allGood)
                 {
-                    ClinicEntities1.GetContext().Patients.Add(_newPat);
+                    ClinicEntities.GetContext().Patients.Add(_newPat);
                     try
                     {
-                        ClinicEntities1.GetContext().SaveChanges();
+                        ClinicEntities.GetContext().SaveChanges();
                         ShowMSG("Your account has been succesfully created.");
                     }
                     catch (Exception ex)

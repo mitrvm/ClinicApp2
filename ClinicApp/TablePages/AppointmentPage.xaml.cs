@@ -21,24 +21,72 @@ namespace ClinicApp
     /// </summary>
     public partial class AppointmentPage : Page
     {
+
         public AppointmentPage()
         {
             InitializeComponent();
-            DGrid_Appointments.ItemsSource = ClinicEntities1.GetContext().Appointments.ToList();
+
+            var allStatuses = new List<string> { "Все", "Не проведен", "Проведен", "Отменен" };
+            SearchS.ItemsSource= allStatuses;
+
+            SearchS.SelectedIndex = 0;
+
+            UpdApps();
+
+            MainWindow ugh = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            if (ugh.UPat)
+            {
+                editBtnCol.Visibility = Visibility.Collapsed;
+            }
         }
+        private void UpdApps()
+        {
+            var currentApps = ClinicEntities.GetContext().Appointments.ToList();
+
+
+            if (TBoxSearch.Text.Length > 0 ) {
+                currentApps = currentApps.Where(p => p.ID.ToString().ToLower().Equals(TBoxSearch.Text)).ToList();
+            }
+
+            if (SearchS.SelectedIndex > 0)
+            {
+                currentApps = currentApps.Where(p => p.Status.ToLower().Equals(SearchS.SelectedItem.ToString().ToLower())).ToList();
+            }
+
+            MainWindow ugh = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            if (ugh.UPat)
+            {
+                currentApps = currentApps.Where(p => p.Patient_ID.Equals(ugh.UID)).ToList();
+                
+            }
+
+            var currentApps1 = currentApps.Select(p => new
+            {
+                ID = p.ID,
+                Date = p.Date,
+                Service_ID = p.Services.Service,
+                Patient_ID = p.Patients.Full_name,
+                Doctor_ID = p.Employees.Full_name,
+                Status = p.Status
+
+            });
+
+            DGrid_Appointments.ItemsSource = currentApps1;
+        }
+
 
         private void Btn_DelApp_Click(object sender, RoutedEventArgs e)
         {
             var appForRemoving = DGrid_Appointments.SelectedItems.Cast<Appointments>().ToList();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {appForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) ;
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {appForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities1.GetContext().Appointments.RemoveRange(appForRemoving);
-                    ClinicEntities1.GetContext().SaveChanges();
+                    ClinicEntities.GetContext().Appointments.RemoveRange(appForRemoving);
+                    ClinicEntities.GetContext().SaveChanges();
                     MessageBox.Show("Данные удалены");
-                    DGrid_Appointments.ItemsSource = ClinicEntities1.GetContext().Appointments.ToList();
+                    DGrid_Appointments.ItemsSource = ClinicEntities.GetContext().Appointments.ToList();
                 }
                 catch (Exception ex)
                 {
@@ -49,8 +97,25 @@ namespace ClinicApp
 
         private void BtnAddApp_Click(object sender, RoutedEventArgs e)
         {
+            var context = (sender as Button).DataContext;
+            int idStarts = Convert.ToInt32(context.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }))-1;
+            var App = ClinicEntities.GetContext().Appointments.ToList()[idStarts];
+            Manager.MainFrame.Navigate(new AE_Appointments(App as Appointments));
+        }
 
-            Manager.MainFrame.Navigate(new AE_Appointments((sender as Button).DataContext as Appointments));
+        private void TBoxSearchS_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdApps();
+        }
+
+        private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdApps();
+        }
+
+        private void BtnAddAppfff_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AE_Appointments(null));
         }
     }
 }

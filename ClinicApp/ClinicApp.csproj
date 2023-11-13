@@ -14,6 +14,22 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>D:\Рабочий стол\uhh\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +49,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>5E62EABF2A352136DC544447B9C3922EA39E6B03</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>ClinicApp_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -67,62 +95,89 @@
     <Compile Include="AddEditPages\AE_Appointments.xaml.cs">
       <DependentUpon>AE_Appointments.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddEditPages\AE_Appointments_Res.xaml.cs">
+      <DependentUpon>AE_Appointments_Res.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_Discharge.xaml.cs">
+      <DependentUpon>AE_Discharge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_Employees.xaml.cs">
+      <DependentUpon>AE_Employees.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_JobTitle.xaml.cs">
+      <DependentUpon>AE_JobTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_MedCard.xaml.cs">
+      <DependentUpon>AE_MedCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_Medicine.xaml.cs">
+      <DependentUpon>AE_Medicine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_Patient.xaml.cs">
+      <DependentUpon>AE_Patient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_Schedule.xaml.cs">
+      <DependentUpon>AE_Schedule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_Service.xaml.cs">
+      <DependentUpon>AE_Service.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditPages\AE_Speciality.xaml.cs">
+      <DependentUpon>AE_Speciality.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Appointments.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Appointment_results.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
-    </Compile>
-    <Compile Include="C_Job_titles.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Discharges.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Employees.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Job_titles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="MainPages\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Medical_card.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Medicines.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model12.Context.cs">
+    <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model12.Context.tt</DependentUpon>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model12.cs">
+    <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model12.Designer.cs">
+    <Compile Include="Model1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model12.edmx</DependentUpon>
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Patients.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Reg.xaml.cs">
       <DependentUpon>Reg.xaml</DependentUpon>
     </Compile>
     <Compile Include="Schedules.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Services.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Specialities.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>Model12.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="TablePages\AppointmentPage.xaml.cs">
       <DependentUpon>AppointmentPage.xaml</DependentUpon>
@@ -171,6 +226,46 @@
       <DependentUpon>SpecialitiesPage.xaml</DependentUpon>
     </Compile>
     <Page Include="AddEditPages\AE_Appointments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_Appointments_Res.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_Discharge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_Employees.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_JobTitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_MedCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_Medicine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_Patient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_Schedule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_Service.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditPages\AE_Speciality.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -273,12 +368,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model12.edmx">
+    <EntityDeploy Include="Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model12.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model12.edmx.diagram">
-      <DependentUpon>Model12.edmx</DependentUpon>
+    <None Include="ClinicApp_TemporaryKey.pfx" />
+    <None Include="Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -314,16 +410,6 @@
     <Resource Include="icons\menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model12.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model12.edmx</DependentUpon>
-      <LastGenOutput>Model12.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model12.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model12.edmx</DependentUpon>
-      <LastGenOutput>Model12.cs</LastGenOutput>
-    </Content>
     <Resource Include="MainPages\icons\job_titles.png" />
     <Resource Include="MainPages\icons\service.png" />
     <Resource Include="MainPages\icons\speciality.png" />
@@ -344,6 +430,30 @@
     <Resource Include="icons\service_2.png" />
     <Resource Include="icons\speciality-2.png" />
     <Resource Include="icons\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

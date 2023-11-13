@@ -26,6 +26,12 @@ namespace ClinicApp
         DispatcherTimer timer;
         double panelWidth;
         bool hidden;
+        public bool UAdm;
+        public bool UDoc;
+        public bool UPat;
+        public int UID;
+        public List<int> appIDs = new List<int>();
+
         public MainWindow()
         {
             InitializeComponent();

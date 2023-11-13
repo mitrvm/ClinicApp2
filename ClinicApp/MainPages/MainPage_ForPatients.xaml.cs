@@ -54,5 +54,10 @@ namespace ClinicApp
             await Task.Delay(1000);
             Manager.MainFrame.Navigate(new MedicalCardPage());
         }
+
+        private void Move_ToServices_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

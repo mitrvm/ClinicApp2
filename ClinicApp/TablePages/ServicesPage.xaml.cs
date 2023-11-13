@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicApp.AddEditPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,27 +24,45 @@ namespace ClinicApp.TablePages
         public ServicesPage()
         {
             InitializeComponent();
-            DGrid_Services.ItemsSource = ClinicEntities1.GetContext().Services.ToList();
+            UpdServ();
         }
+        private void UpdServ()
+        {
+            var currentServs = ClinicEntities.GetContext().Services.ToList();
 
+            currentServs = currentServs.Where(p => p.Service.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+
+            DGrid_Services.ItemsSource = currentServs;
+        }
         private void Btn_DelSer_Click(object sender, RoutedEventArgs e)
         {
             var serForRemoving = DGrid_Services.SelectedItems.Cast<Services>().ToList();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {serForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) ;
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {serForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities1.GetContext().Services.RemoveRange(serForRemoving);
-                    ClinicEntities1.GetContext().SaveChanges();
+                    ClinicEntities.GetContext().Services.RemoveRange(serForRemoving);
+                    ClinicEntities.GetContext().SaveChanges();
                     MessageBox.Show("Данные удалены");
-                    DGrid_Services.ItemsSource = ClinicEntities1.GetContext().Services.ToList();
+                    DGrid_Services.ItemsSource = ClinicEntities.GetContext().Services.ToList();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }
             }
+        }
+
+        private void BtnAddSer_Click(object sender, RoutedEventArgs e)
+        {
+
+            Manager.MainFrame.Navigate(new AE_Service((sender as Button).DataContext as Services));
+        }
+
+        private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdServ();
         }
     }
 }

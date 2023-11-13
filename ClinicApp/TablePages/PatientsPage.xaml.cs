@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicApp.AddEditPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,27 +24,47 @@ namespace ClinicApp.TablePages
         public PatientsPage()
         {
             InitializeComponent();
-            DGrid_Patients.ItemsSource = ClinicEntities1.GetContext().Patients.ToList();
+            UpdPatients();
+        }
+
+        private void UpdPatients()
+        {
+            var currentPats = ClinicEntities.GetContext().Patients.ToList();
+            currentPats = currentPats.Where(p => p.Full_name.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+
+            currentPats = currentPats.Where(p => p.SNILS.ToLower().Contains(TBoxSearchS.Text.ToLower())).ToList();
+
+            DGrid_Patients.ItemsSource = currentPats;
         }
 
         private void Btn_DelPat_Click(object sender, RoutedEventArgs e)
         {
             var patForRemoving = DGrid_Patients.SelectedItems.Cast<Patients>().ToList();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {patForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) ;
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {patForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities1.GetContext().Patients.RemoveRange(patForRemoving);
-                    ClinicEntities1.GetContext().SaveChanges();
+                    ClinicEntities.GetContext().Patients.RemoveRange(patForRemoving);
+                    ClinicEntities.GetContext().SaveChanges();
                     MessageBox.Show("Данные удалены");
-                    DGrid_Patients.ItemsSource = ClinicEntities1.GetContext().Patients.ToList();
+                    DGrid_Patients.ItemsSource = ClinicEntities.GetContext().Patients.ToList();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }
             }
+        }
+
+        private void BtnAddPat_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AE_Patient((sender as Button).DataContext as Patients));
+        }
+
+        private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdPatients();
         }
     }
 }

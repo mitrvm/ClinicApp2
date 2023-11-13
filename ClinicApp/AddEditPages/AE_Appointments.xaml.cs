@@ -36,8 +36,15 @@ namespace ClinicApp.AddEditPages
             StringBuilder errors = new StringBuilder();
             if (_currentAppointment.Doctor_ID.ToString().Length == 0 || _currentAppointment.Patient_ID.ToString().Length == 0 || _currentAppointment.Service_ID.ToString().Length == 0 || _currentAppointment.Status==null)
                 errors.AppendLine("Please fill out all the fields and try again.");
+
             if (_currentAppointment.Doctor_ID<1|| _currentAppointment.Patient_ID < 1|| _currentAppointment.Service_ID < 1)
                 errors.AppendLine("Invalid ID.");
+
+            if (_currentAppointment.Date.Year < 1950)
+            {
+                errors.AppendLine("Invalid date");
+            }
+
             if (_currentAppointment.Date > DateTime.Now&& _currentAppointment.Status== "Проведен")
             {
                 errors.AppendLine("Invalid date");
@@ -51,12 +58,13 @@ namespace ClinicApp.AddEditPages
 
             if (_currentAppointment.ID == 0)
             {
-                ClinicEntities1.GetContext().Appointments.Add(_currentAppointment);
+                ClinicEntities.GetContext().Appointments.Add(_currentAppointment);
             }
             try
             {
-                ClinicEntities1.GetContext().SaveChanges();
-                MessageBox.Show("nice");
+                ClinicEntities.GetContext().SaveChanges();
+                MessageBox.Show("Data saved.");
+                Manager.MainFrame.Navigate(new AppointmentPage());
             }
             catch (Exception ex)
             {

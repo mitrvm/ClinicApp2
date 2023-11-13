@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6eae3db5817f4535a511c1010cf14941" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="ClinicModel.Appointment_results" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Appointments" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Discharges" Width="1.5" PointX="7.625" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Employees" Width="1.5" PointX="2.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Job_titles" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Medical_card" Width="1.5" PointX="9.375" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Medicines" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Patients" Width="1.5" PointX="3.125" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Schedules" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Services" Width="1.5" PointX="9.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicModel.Specialities" Width="1.5" PointX="0.875" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="ClinicModel.FK_Appointment_results_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Appointment_results_Medecines" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Appointments_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Appointments_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Appointments_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Discharges_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Discharges_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Employees_Job_titles" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Employees_Specialities" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Schedules_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicModel.FK_Medical_card_Patients" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

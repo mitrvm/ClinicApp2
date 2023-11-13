@@ -12,28 +12,45 @@
 
 
         <Grid.RowDefinitions>
+
+            <RowDefinition Height="45*"/>
             <RowDefinition Height="377*"/>
             <RowDefinition Height="43*"/>
 
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="DGrid_Employees" AutoGenerateColumns="False" IsReadOnly="True" Margin="0 0 15 0">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center" Margin="10 0 0 0" HorizontalAlignment="Left">
+            <TextBlock Text="Search name: "  TextAlignment="Right"  FontFamily="Montserrat" VerticalAlignment="Center"></TextBlock>
+            <TextBox Width="250" Name="TBoxSearch" Margin="10 0 0 0"  FontFamily="Montserrat" VerticalContentAlignment="Center" Height="20" TextChanged="TBoxSearch_TextChanged"></TextBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="380,0,0,0">
+            <TextBlock Text="Search job title: "  TextAlignment="Right"  FontFamily="Montserrat" VerticalAlignment="Center"></TextBlock>
+            <ComboBox Width="250" Margin="10 0 0 0" Name="TBoxSearchJT"  FontFamily="Montserrat" VerticalContentAlignment="Center" Height="20" SelectionChanged="TBoxSearchSp_SelectionChanged" DisplayMemberPath="Job_title"></ComboBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="760,0,0,0">
+            <TextBlock Text="Search speciality: "  TextAlignment="Right"  FontFamily="Montserrat" VerticalAlignment="Center"></TextBlock>
+            <ComboBox Width="250" Margin="10 0 0 0" Name="TBoxSearchSp"  FontFamily="Montserrat" VerticalContentAlignment="Center" Height="20" SelectionChanged="TBoxSearchSp_SelectionChanged" DisplayMemberPath="Speciality"></ComboBox>
+        </StackPanel>
+
+        <DataGrid x:Name="DGrid_Employees" AutoGenerateColumns="False" IsReadOnly="True" Margin="0 0 15 0" Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Width="50" Binding="{Binding ID}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Full name"  Width="3*" Binding="{Binding Full_name}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Job title ID"  Width="*" Binding="{Binding Job_title_ID}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Speciality ID"  Width="*" Binding="{Binding Speciality_ID}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Job title"  Width="*" Binding="{Binding Job_title_ID}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Speciality"  Width="*" Binding="{Binding Specialty_ID}"></DataGridTextColumn>
                 <DataGridTemplateColumn Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Редактировать" Name="BtnEdit"></Button>
+                            <Button Content="Редактировать" Name="BtnEdit" Click="BtnAddEmp_Click"></Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
 
         </DataGrid>
-        <Button Content="Add" Grid.Row="1" FontFamily="Montserrat" HorizontalAlignment="Right" Name="BtnAddApp" Width="80" Height="30" Margin="0 0 25 0" Background="#006494"  Foreground="white" FontSize="12">
+        <Button Content="Add" Grid.Row="2" FontFamily="Montserrat" HorizontalAlignment="Right" Name="BtnAddEmpfff" Width="80" Height="30" Margin="0 0 25 0" Background="#006494"  Foreground="white" FontSize="12" Click="BtnAddEmpfff_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="7"/>
@@ -41,7 +58,7 @@
             </Button.Resources>
         </Button>
 
-        <Button Content="Delete" Grid.Row="1" FontFamily="Montserrat" HorizontalAlignment="Left" Width="80" Height="30" Margin="933,13,0,13" Background="#006494"  Foreground="white" FontSize="12" Name="Btn_DelEmp" Click="Btn_DelEmp_Click">
+        <Button Content="Delete" Grid.Row="2" FontFamily="Montserrat" HorizontalAlignment="Left" Width="80" Height="30" Margin="933,11,0,10" Background="#006494"  Foreground="white" FontSize="12" Name="Btn_DelEmp" Click="Btn_DelEmp_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="7"/>

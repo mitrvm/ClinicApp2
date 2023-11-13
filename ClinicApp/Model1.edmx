@@ -4,21 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище ClinicEntities" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name=" Job titles">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Job title" Type="varchar(max)" Nullable="false" />
-        </EntityType>
+      <Schema Namespace="Хранилище ClinicModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Appointment results">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Appointment ID" Type="int" Nullable="false" />
-          <Property Name="Diagnosis" Type="varchar(max)" />
+          <Property Name="Diagnosis" Type="varchar(max)" Nullable="false" />
           <Property Name="Prescribed medecine ID" Type="int" />
         </EntityType>
         <EntityType Name="Appointments">
@@ -51,6 +44,13 @@
           <Property Name="Specialty ID" Type="int" />
           <Property Name="DB_Password" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Job titles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Job title" Type="varchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="Medical card">
           <Key>
             <PropertyRef Name="ID" />
@@ -76,7 +76,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Full name" Type="varchar(max)" Nullable="false" />
           <Property Name="Date of birth" Type="date" Nullable="false" />
-          <Property Name="SNILS" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SNILS" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="DB_Password" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Schedules">
@@ -103,16 +103,114 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Speciality" Type="varchar(max)" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
+        <Association Name="FK_Appointment results_Appointments">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
+          <End Role="Appointment results" Type="Self.Appointment results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Appointment results">
+              <PropertyRef Name="Appointment ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointment results_Medecines">
+          <End Role="Medicines" Type="Self.Medicines" Multiplicity="0..1" />
+          <End Role="Appointment results" Type="Self.Appointment results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicines">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Appointment results">
+              <PropertyRef Name="Prescribed medecine ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="Doctor ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="Patient ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="Service ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Discharges_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Discharges" Type="Self.Discharges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Discharges">
+              <PropertyRef Name="Doctor ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Discharges_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Discharges" Type="Self.Discharges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Discharges">
+              <PropertyRef Name="Patient ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Job titles">
+          <End Role="Job titles" Type="Self.Job titles" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job titles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="Job title ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Specialities">
+          <End Role="Specialities" Type="Self.Specialities" Multiplicity="0..1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialities">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="Specialty ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Medical card_Patients">
           <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
           <End Role="Medical card" Type="Self.Medical card" Multiplicity="*" />
@@ -125,67 +223,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Выписки_Пациенты">
-          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
-          <End Role="Discharges" Type="Self.Discharges" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patients">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Discharges">
-              <PropertyRef Name="Patient ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Выписки_Сотрудники">
-          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
-          <End Role="Discharges" Type="Self.Discharges" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Discharges">
-              <PropertyRef Name="Doctor ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Записи на прием_Пациенты">
-          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patients">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Appointments">
-              <PropertyRef Name="Patient ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Записи на прием_Сотрудники">
-          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Appointments">
-              <PropertyRef Name="Doctor ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Записи на прием_Услуги">
-          <End Role="Services" Type="Self.Services" Multiplicity="1" />
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Services">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Appointments">
-              <PropertyRef Name="Service ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Расписания_Сотрудники">
+        <Association Name="FK_Schedules_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Schedules" Type="Self.Schedules" Multiplicity="*" />
           <ReferentialConstraint>
@@ -197,135 +235,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Результаты приема_Записи на прием">
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
-          <End Role="Appointment results" Type="Self.Appointment results" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Appointments">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Appointment results">
-              <PropertyRef Name="Appointment ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Результаты приема_Препараты">
-          <End Role="Medicines" Type="Self.Medicines" Multiplicity="0..1" />
-          <End Role="Appointment results" Type="Self.Appointment results" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Medicines">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Appointment results">
-              <PropertyRef Name="Prescribed medecine ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Сотрудники_Должности">
-          <End Role=" Job titles" Type="Self. Job titles" Multiplicity="1" />
-          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role=" Job titles">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="Job title ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Сотрудники_Специальности">
-          <End Role="Specialities" Type="Self.Specialities" Multiplicity="0..1" />
-          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Specialities">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="Specialty ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="Хранилище ClinicEntitiesContainer">
-          <EntitySet Name=" Job titles" EntityType="Self. Job titles" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="Хранилище ClinicModelContainer">
           <EntitySet Name="Appointment results" EntityType="Self.Appointment results" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Discharges" EntityType="Self.Discharges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Job titles" EntityType="Self.Job titles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medical card" EntityType="Self.Medical card" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medicines" EntityType="Self.Medicines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Schedules" EntityType="Self.Schedules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialities" EntityType="Self.Specialities" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Appointment results_Appointments" Association="Self.FK_Appointment results_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="Appointment results" EntitySet="Appointment results" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointment results_Medecines" Association="Self.FK_Appointment results_Medecines">
+            <End Role="Medicines" EntitySet="Medicines" />
+            <End Role="Appointment results" EntitySet="Appointment results" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Employees" Association="Self.FK_Appointments_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Patients" Association="Self.FK_Appointments_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Services" Association="Self.FK_Appointments_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Discharges_Employees" Association="Self.FK_Discharges_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Discharges" EntitySet="Discharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Discharges_Patients" Association="Self.FK_Discharges_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Discharges" EntitySet="Discharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Job titles" Association="Self.FK_Employees_Job titles">
+            <End Role="Job titles" EntitySet="Job titles" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Specialities" Association="Self.FK_Employees_Specialities">
+            <End Role="Specialities" EntitySet="Specialities" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
           <AssociationSet Name="FK_Medical card_Patients" Association="Self.FK_Medical card_Patients">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="Medical card" EntitySet="Medical card" />
           </AssociationSet>
-          <AssociationSet Name="FK_Выписки_Пациенты" Association="Self.FK_Выписки_Пациенты">
-            <End Role="Patients" EntitySet="Patients" />
-            <End Role="Discharges" EntitySet="Discharges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Выписки_Сотрудники" Association="Self.FK_Выписки_Сотрудники">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Discharges" EntitySet="Discharges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Записи на прием_Пациенты" Association="Self.FK_Записи на прием_Пациенты">
-            <End Role="Patients" EntitySet="Patients" />
-            <End Role="Appointments" EntitySet="Appointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Записи на прием_Сотрудники" Association="Self.FK_Записи на прием_Сотрудники">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Appointments" EntitySet="Appointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Записи на прием_Услуги" Association="Self.FK_Записи на прием_Услуги">
-            <End Role="Services" EntitySet="Services" />
-            <End Role="Appointments" EntitySet="Appointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Расписания_Сотрудники" Association="Self.FK_Расписания_Сотрудники">
+          <AssociationSet Name="FK_Schedules_Employees" Association="Self.FK_Schedules_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Schedules" EntitySet="Schedules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Результаты приема_Записи на прием" Association="Self.FK_Результаты приема_Записи на прием">
-            <End Role="Appointments" EntitySet="Appointments" />
-            <End Role="Appointment results" EntitySet="Appointment results" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Результаты приема_Препараты" Association="Self.FK_Результаты приема_Препараты">
-            <End Role="Medicines" EntitySet="Medicines" />
-            <End Role="Appointment results" EntitySet="Appointment results" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Сотрудники_Должности" Association="Self.FK_Сотрудники_Должности">
-            <End Role=" Job titles" EntitySet=" Job titles" />
-            <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Сотрудники_Специальности" Association="Self.FK_Сотрудники_Специальности">
-            <End Role="Specialities" EntitySet="Specialities" />
-            <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ClinicEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="C_Job_titles">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Job_title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Сотрудники_Должности" FromRole="C_Job_titles" ToRole="Employees" />
-        </EntityType>
+      <Schema Namespace="ClinicModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Appointment_results">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Appointment_ID" Type="Int32" Nullable="false" />
-          <Property Name="Diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Prescribed_medecine_ID" Type="Int32" />
-          <NavigationProperty Name="Appointments" Relationship="Self.FK_Результаты_приема_Записи_на_прием" FromRole="Appointment_results" ToRole="Appointments" />
-          <NavigationProperty Name="Medicines" Relationship="Self.FK_Результаты_приема_Препараты" FromRole="Appointment_results" ToRole="Medicines" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointment_results_Appointments" FromRole="Appointment_results" ToRole="Appointments" />
+          <NavigationProperty Name="Medicines" Relationship="Self.FK_Appointment_results_Medecines" FromRole="Appointment_results" ToRole="Medicines" />
         </EntityType>
         <EntityType Name="Appointments">
           <Key>
@@ -337,10 +318,10 @@
           <Property Name="Patient_ID" Type="Int32" Nullable="false" />
           <Property Name="Doctor_ID" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Appointment_results" Relationship="Self.FK_Результаты_приема_Записи_на_прием" FromRole="Appointments" ToRole="Appointment_results" />
-          <NavigationProperty Name="Patients" Relationship="Self.FK_Записи_на_прием_Пациенты" FromRole="Appointments" ToRole="Patients" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Записи_на_прием_Сотрудники" FromRole="Appointments" ToRole="Employees" />
-          <NavigationProperty Name="Services" Relationship="Self.FK_Записи_на_прием_Услуги" FromRole="Appointments" ToRole="Services" />
+          <NavigationProperty Name="Appointment_results" Relationship="Self.FK_Appointment_results_Appointments" FromRole="Appointments" ToRole="Appointment_results" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Appointments_Employees" FromRole="Appointments" ToRole="Employees" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Appointments_Patients" FromRole="Appointments" ToRole="Patients" />
+          <NavigationProperty Name="Services" Relationship="Self.FK_Appointments_Services" FromRole="Appointments" ToRole="Services" />
         </EntityType>
         <EntityType Name="Discharges">
           <Key>
@@ -350,8 +331,8 @@
           <Property Name="Patient_ID" Type="Int32" Nullable="false" />
           <Property Name="Doctor_ID" Type="Int32" Nullable="false" />
           <Property Name="Discharge_date" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Patients" Relationship="Self.FK_Выписки_Пациенты" FromRole="Discharges" ToRole="Patients" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Выписки_Сотрудники" FromRole="Discharges" ToRole="Employees" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Discharges_Employees" FromRole="Discharges" ToRole="Employees" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Discharges_Patients" FromRole="Discharges" ToRole="Patients" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -362,11 +343,19 @@
           <Property Name="Job_title_ID" Type="Int32" Nullable="false" />
           <Property Name="Specialty_ID" Type="Int32" />
           <Property Name="DB_Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="C_Job_titles" Relationship="Self.FK_Сотрудники_Должности" FromRole="Employees" ToRole="C_Job_titles" />
-          <NavigationProperty Name="Appointments" Relationship="Self.FK_Записи_на_прием_Сотрудники" FromRole="Employees" ToRole="Appointments" />
-          <NavigationProperty Name="Discharges" Relationship="Self.FK_Выписки_Сотрудники" FromRole="Employees" ToRole="Discharges" />
-          <NavigationProperty Name="Schedules" Relationship="Self.FK_Расписания_Сотрудники" FromRole="Employees" ToRole="Schedules" />
-          <NavigationProperty Name="Specialities" Relationship="Self.FK_Сотрудники_Специальности" FromRole="Employees" ToRole="Specialities" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Employees" FromRole="Employees" ToRole="Appointments" />
+          <NavigationProperty Name="Discharges" Relationship="Self.FK_Discharges_Employees" FromRole="Employees" ToRole="Discharges" />
+          <NavigationProperty Name="Job_titles" Relationship="Self.FK_Employees_Job_titles" FromRole="Employees" ToRole="Job_titles" />
+          <NavigationProperty Name="Specialities" Relationship="Self.FK_Employees_Specialities" FromRole="Employees" ToRole="Specialities" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedules_Employees" FromRole="Employees" ToRole="Schedules" />
+        </EntityType>
+        <EntityType Name="Job_titles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Job_title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_Job_titles" FromRole="Job_titles" ToRole="Employees" />
         </EntityType>
         <EntityType Name="Medical_card">
           <Key>
@@ -386,7 +375,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Medicine" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Purpose" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Appointment_results" Relationship="Self.FK_Результаты_приема_Препараты" FromRole="Medicines" ToRole="Appointment_results" />
+          <NavigationProperty Name="Appointment_results" Relationship="Self.FK_Appointment_results_Medecines" FromRole="Medicines" ToRole="Appointment_results" />
         </EntityType>
         <EntityType Name="Patients">
           <Key>
@@ -395,10 +384,10 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Full_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="SNILS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SNILS" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DB_Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Appointments" Relationship="Self.FK_Записи_на_прием_Пациенты" FromRole="Patients" ToRole="Appointments" />
-          <NavigationProperty Name="Discharges" Relationship="Self.FK_Выписки_Пациенты" FromRole="Patients" ToRole="Discharges" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Patients" FromRole="Patients" ToRole="Appointments" />
+          <NavigationProperty Name="Discharges" Relationship="Self.FK_Discharges_Patients" FromRole="Patients" ToRole="Discharges" />
           <NavigationProperty Name="Medical_card" Relationship="Self.FK_Medical_card_Patients" FromRole="Patients" ToRole="Medical_card" />
         </EntityType>
         <EntityType Name="Schedules">
@@ -409,7 +398,7 @@
           <Property Name="Employee_ID" Type="Int32" Nullable="false" />
           <Property Name="Date_and_time" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Booked" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Расписания_Сотрудники" FromRole="Schedules" ToRole="Employees" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Schedules_Employees" FromRole="Schedules" ToRole="Employees" />
         </EntityType>
         <EntityType Name="Services">
           <Key>
@@ -418,7 +407,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Service" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="Appointments" Relationship="Self.FK_Записи_на_прием_Услуги" FromRole="Services" ToRole="Appointments" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Services" FromRole="Services" ToRole="Appointments" />
         </EntityType>
         <EntityType Name="Specialities">
           <Key>
@@ -426,31 +415,9 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Speciality" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Сотрудники_Специальности" FromRole="Specialities" ToRole="Employees" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_Specialities" FromRole="Specialities" ToRole="Employees" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <Association Name="FK_Сотрудники_Должности">
-          <End Role="C_Job_titles" Type="Self.C_Job_titles" Multiplicity="1" />
-          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="C_Job_titles">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="Job_title_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Результаты_приема_Записи_на_прием">
+        <Association Name="FK_Appointment_results_Appointments">
           <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
           <End Role="Appointment_results" Type="Self.Appointment_results" Multiplicity="*" />
           <ReferentialConstraint>
@@ -462,7 +429,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Результаты_приема_Препараты">
+        <Association Name="FK_Appointment_results_Medecines">
           <End Role="Medicines" Type="Self.Medicines" Multiplicity="0..1" />
           <End Role="Appointment_results" Type="Self.Appointment_results" Multiplicity="*" />
           <ReferentialConstraint>
@@ -474,19 +441,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Записи_на_прием_Пациенты">
-          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patients">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Appointments">
-              <PropertyRef Name="Patient_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Записи_на_прием_Сотрудники">
+        <Association Name="FK_Appointments_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
           <ReferentialConstraint>
@@ -498,7 +453,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Записи_на_прием_Услуги">
+        <Association Name="FK_Appointments_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="Patient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Services">
           <End Role="Services" Type="Self.Services" Multiplicity="1" />
           <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
           <ReferentialConstraint>
@@ -510,19 +477,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Выписки_Пациенты">
-          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
-          <End Role="Discharges" Type="Self.Discharges" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patients">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Discharges">
-              <PropertyRef Name="Patient_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Выписки_Сотрудники">
+        <Association Name="FK_Discharges_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Discharges" Type="Self.Discharges" Multiplicity="*" />
           <ReferentialConstraint>
@@ -534,19 +489,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Расписания_Сотрудники">
-          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
-          <End Role="Schedules" Type="Self.Schedules" Multiplicity="*" />
+        <Association Name="FK_Discharges_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Discharges" Type="Self.Discharges" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Employees">
+            <Principal Role="Patients">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Schedules">
-              <PropertyRef Name="Employee_ID" />
+            <Dependent Role="Discharges">
+              <PropertyRef Name="Patient_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Сотрудники_Специальности">
+        <Association Name="FK_Employees_Job_titles">
+          <End Role="Job_titles" Type="Self.Job_titles" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job_titles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="Job_title_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Specialities">
           <End Role="Specialities" Type="Self.Specialities" Multiplicity="0..1" />
           <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
           <ReferentialConstraint>
@@ -555,6 +522,18 @@
             </Principal>
             <Dependent Role="Employees">
               <PropertyRef Name="Specialty_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedules_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Schedules" Type="Self.Schedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedules">
+              <PropertyRef Name="Employee_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -570,58 +549,57 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ClinicEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C_Job_titles" EntityType="Self.C_Job_titles" />
+        <EntityContainer Name="ClinicEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Appointment_results" EntityType="Self.Appointment_results" />
           <EntitySet Name="Appointments" EntityType="Self.Appointments" />
           <EntitySet Name="Discharges" EntityType="Self.Discharges" />
           <EntitySet Name="Employees" EntityType="Self.Employees" />
+          <EntitySet Name="Job_titles" EntityType="Self.Job_titles" />
           <EntitySet Name="Medical_card" EntityType="Self.Medical_card" />
           <EntitySet Name="Medicines" EntityType="Self.Medicines" />
           <EntitySet Name="Patients" EntityType="Self.Patients" />
           <EntitySet Name="Schedules" EntityType="Self.Schedules" />
           <EntitySet Name="Services" EntityType="Self.Services" />
           <EntitySet Name="Specialities" EntityType="Self.Specialities" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <AssociationSet Name="FK_Сотрудники_Должности" Association="Self.FK_Сотрудники_Должности">
-            <End Role="C_Job_titles" EntitySet="C_Job_titles" />
-            <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Результаты_приема_Записи_на_прием" Association="Self.FK_Результаты_приема_Записи_на_прием">
+          <AssociationSet Name="FK_Appointment_results_Appointments" Association="Self.FK_Appointment_results_Appointments">
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="Appointment_results" EntitySet="Appointment_results" />
           </AssociationSet>
-          <AssociationSet Name="FK_Результаты_приема_Препараты" Association="Self.FK_Результаты_приема_Препараты">
+          <AssociationSet Name="FK_Appointment_results_Medecines" Association="Self.FK_Appointment_results_Medecines">
             <End Role="Medicines" EntitySet="Medicines" />
             <End Role="Appointment_results" EntitySet="Appointment_results" />
           </AssociationSet>
-          <AssociationSet Name="FK_Записи_на_прием_Пациенты" Association="Self.FK_Записи_на_прием_Пациенты">
-            <End Role="Patients" EntitySet="Patients" />
-            <End Role="Appointments" EntitySet="Appointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Записи_на_прием_Сотрудники" Association="Self.FK_Записи_на_прием_Сотрудники">
+          <AssociationSet Name="FK_Appointments_Employees" Association="Self.FK_Appointments_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Appointments" EntitySet="Appointments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Записи_на_прием_Услуги" Association="Self.FK_Записи_на_прием_Услуги">
+          <AssociationSet Name="FK_Appointments_Patients" Association="Self.FK_Appointments_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Services" Association="Self.FK_Appointments_Services">
             <End Role="Services" EntitySet="Services" />
             <End Role="Appointments" EntitySet="Appointments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Выписки_Пациенты" Association="Self.FK_Выписки_Пациенты">
+          <AssociationSet Name="FK_Discharges_Employees" Association="Self.FK_Discharges_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Discharges" EntitySet="Discharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Discharges_Patients" Association="Self.FK_Discharges_Patients">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="Discharges" EntitySet="Discharges" />
           </AssociationSet>
-          <AssociationSet Name="FK_Выписки_Сотрудники" Association="Self.FK_Выписки_Сотрудники">
+          <AssociationSet Name="FK_Employees_Job_titles" Association="Self.FK_Employees_Job_titles">
+            <End Role="Job_titles" EntitySet="Job_titles" />
             <End Role="Employees" EntitySet="Employees" />
-            <End Role="Discharges" EntitySet="Discharges" />
           </AssociationSet>
-          <AssociationSet Name="FK_Расписания_Сотрудники" Association="Self.FK_Расписания_Сотрудники">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Schedules" EntitySet="Schedules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Сотрудники_Специальности" Association="Self.FK_Сотрудники_Специальности">
+          <AssociationSet Name="FK_Employees_Specialities" Association="Self.FK_Employees_Specialities">
             <End Role="Specialities" EntitySet="Specialities" />
             <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedules_Employees" Association="Self.FK_Schedules_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Schedules" EntitySet="Schedules" />
           </AssociationSet>
           <AssociationSet Name="FK_Medical_card_Patients" Association="Self.FK_Medical_card_Patients">
             <End Role="Patients" EntitySet="Patients" />
@@ -633,17 +611,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище ClinicEntitiesContainer" CdmEntityContainer="ClinicEntities1">
-          <EntitySetMapping Name="C_Job_titles">
-            <EntityTypeMapping TypeName="ClinicEntities.C_Job_titles">
-              <MappingFragment StoreEntitySet=" Job titles">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Job_title" ColumnName="Job title" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+        <EntityContainerMapping StorageEntityContainer="Хранилище ClinicModelContainer" CdmEntityContainer="ClinicEntities">
           <EntitySetMapping Name="Appointment_results">
-            <EntityTypeMapping TypeName="ClinicEntities.Appointment_results">
+            <EntityTypeMapping TypeName="ClinicModel.Appointment_results">
               <MappingFragment StoreEntitySet="Appointment results">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Appointment_ID" ColumnName="Appointment ID" />
@@ -653,7 +623,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Appointments">
-            <EntityTypeMapping TypeName="ClinicEntities.Appointments">
+            <EntityTypeMapping TypeName="ClinicModel.Appointments">
               <MappingFragment StoreEntitySet="Appointments">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Service_ID" ColumnName="Service ID" />
@@ -665,7 +635,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Discharges">
-            <EntityTypeMapping TypeName="ClinicEntities.Discharges">
+            <EntityTypeMapping TypeName="ClinicModel.Discharges">
               <MappingFragment StoreEntitySet="Discharges">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Patient_ID" ColumnName="Patient ID" />
@@ -675,7 +645,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="ClinicEntities.Employees">
+            <EntityTypeMapping TypeName="ClinicModel.Employees">
               <MappingFragment StoreEntitySet="Employees">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Full_name" ColumnName="Full name" />
@@ -685,8 +655,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Job_titles">
+            <EntityTypeMapping TypeName="ClinicModel.Job_titles">
+              <MappingFragment StoreEntitySet="Job titles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Job_title" ColumnName="Job title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Medical_card">
-            <EntityTypeMapping TypeName="ClinicEntities.Medical_card">
+            <EntityTypeMapping TypeName="ClinicModel.Medical_card">
               <MappingFragment StoreEntitySet="Medical card">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Illness" ColumnName="Illness" />
@@ -697,7 +675,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Medicines">
-            <EntityTypeMapping TypeName="ClinicEntities.Medicines">
+            <EntityTypeMapping TypeName="ClinicModel.Medicines">
               <MappingFragment StoreEntitySet="Medicines">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Medicine" ColumnName="Medicine" />
@@ -706,7 +684,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Patients">
-            <EntityTypeMapping TypeName="ClinicEntities.Patients">
+            <EntityTypeMapping TypeName="ClinicModel.Patients">
               <MappingFragment StoreEntitySet="Patients">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Full_name" ColumnName="Full name" />
@@ -717,7 +695,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Schedules">
-            <EntityTypeMapping TypeName="ClinicEntities.Schedules">
+            <EntityTypeMapping TypeName="ClinicModel.Schedules">
               <MappingFragment StoreEntitySet="Schedules">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Employee_ID" ColumnName="Employee ID" />
@@ -727,7 +705,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Services">
-            <EntityTypeMapping TypeName="ClinicEntities.Services">
+            <EntityTypeMapping TypeName="ClinicModel.Services">
               <MappingFragment StoreEntitySet="Services">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Service" ColumnName="Service" />
@@ -736,21 +714,10 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Specialities">
-            <EntityTypeMapping TypeName="ClinicEntities.Specialities">
+            <EntityTypeMapping TypeName="ClinicModel.Specialities">
               <MappingFragment StoreEntitySet="Specialities">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Speciality" ColumnName="Speciality" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ClinicEntities.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
