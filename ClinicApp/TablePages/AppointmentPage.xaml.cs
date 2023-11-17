@@ -77,16 +77,30 @@ namespace ClinicApp
 
         private void Btn_DelApp_Click(object sender, RoutedEventArgs e)
         {
-            var appForRemoving = DGrid_Appointments.SelectedItems.Cast<Appointments>().ToList();
+           
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {appForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+
+            var appForRemoving = DGrid_Appointments.SelectedItems;
+            var AFData = ClinicEntities.GetContext().Appointments.ToList();
+            List<Appointments> exList = new List<Appointments>();
+
+            foreach (var expense in appForRemoving)
+            {
+                int idStarts = Convert.ToInt32(expense.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }));
+                exList.Add(AFData.Find(p => p.ID == idStarts));
+            }
+
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {exList.Count()} элементов?", "Внимание",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities.GetContext().Appointments.RemoveRange(appForRemoving);
+                    ClinicEntities.GetContext().Appointments.RemoveRange(exList);
                     ClinicEntities.GetContext().SaveChanges();
-                    MessageBox.Show("Данные удалены");
-                    DGrid_Appointments.ItemsSource = ClinicEntities.GetContext().Appointments.ToList();
+
+                    MessageBox.Show("Данные удалены.");
+
+                    UpdApps();
                 }
                 catch (Exception ex)
                 {

@@ -69,16 +69,28 @@ namespace ClinicApp.TablePages
 
         private void Btn_DelEmp_Click(object sender, RoutedEventArgs e)
         {
-            var empForRemoving = DGrid_Employees.SelectedItems.Cast<Employees>().ToList();
+            
+            var EmpForRemoving = DGrid_Employees.SelectedItems;
+            var EmpData = ClinicEntities.GetContext().Employees.ToList();
+            List<Employees> exList = new List<Employees>();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {empForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            foreach (var expense in EmpData)
+            {
+                int idStarts = Convert.ToInt32(expense.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }));
+                exList.Add(EmpData.Find(p => p.ID == idStarts));
+            }
+
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {exList.Count()} элементов?", "Внимание",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities.GetContext().Employees.RemoveRange(empForRemoving);
+                    ClinicEntities.GetContext().Employees.RemoveRange(exList);
                     ClinicEntities.GetContext().SaveChanges();
-                    MessageBox.Show("Данные удалены");
-                    DGrid_Employees.ItemsSource = ClinicEntities.GetContext().Employees.ToList();
+
+                    MessageBox.Show("Данные удалены.");
+
+                    UpdEmp();
                 }
                 catch (Exception ex)
                 {

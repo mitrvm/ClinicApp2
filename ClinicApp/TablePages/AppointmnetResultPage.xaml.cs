@@ -85,23 +85,36 @@ namespace ClinicApp.TablePages
 
         private void Btn_DelAppFin_Click(object sender, RoutedEventArgs e)
         {
-            var appFForRemoving = DGrid_Appointments_Res.SelectedItems.Cast<Appointment_results>().ToList();
+            
+                var appFForRemoving = DGrid_Appointments_Res.SelectedItems;
+                var AFData = ClinicEntities.GetContext().Appointment_results.ToList();
+                List<Appointment_results> exList = new List<Appointment_results>();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {appFForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                try
+                foreach (var expense in appFForRemoving)
                 {
-                    ClinicEntities.GetContext().Appointment_results.RemoveRange(appFForRemoving);
-                    ClinicEntities.GetContext().SaveChanges();
-                    MessageBox.Show("Данные удалены");
-                    DGrid_Appointments_Res.ItemsSource = ClinicEntities.GetContext().Appointment_results.ToList();
+                    int idStarts = Convert.ToInt32(expense.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }));
+                    exList.Add(AFData.Find(p => p.ID == idStarts));
                 }
-                catch (Exception ex)
+
+                if (MessageBox.Show($"Вы точно хотите удалить следующие {exList.Count()} элементов?", "Внимание",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    MessageBox.Show(ex.Message.ToString());
+                    try
+                    {
+                        ClinicEntities.GetContext().Appointment_results.RemoveRange(exList);
+                        ClinicEntities.GetContext().SaveChanges();
+
+                        MessageBox.Show("Данные удалены.");
+
+                        UpdAppRes();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message.ToString());
+                    }
                 }
+            
             }
-        }
 
         private void BtnAddAppRes_Click(object sender, RoutedEventArgs e)
         {

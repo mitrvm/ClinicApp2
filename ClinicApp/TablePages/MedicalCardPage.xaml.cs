@@ -63,16 +63,28 @@ namespace ClinicApp.TablePages
 
         private void Btn_DelMedC_Click(object sender, RoutedEventArgs e)
         {
-            var medCardsForRemoving = DGrid_MedicalCard.SelectedItems.Cast<Medical_card>().ToList();
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {medCardsForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            var MCsForRemoving = DGrid_MedicalCard.SelectedItems;
+            var AFData = ClinicEntities.GetContext().Medical_card.ToList();
+            List<Medical_card> exList = new List<Medical_card>();
+
+            foreach (var expense in MCsForRemoving)
+            {
+                int idStarts = Convert.ToInt32(expense.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }));
+                exList.Add(AFData.Find(p => p.ID == idStarts));
+            }
+
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {exList.Count()} элементов?", "Внимание",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities.GetContext().Medical_card.RemoveRange(medCardsForRemoving);
+                    ClinicEntities.GetContext().Appointment_results.RemoveRange(exList);
                     ClinicEntities.GetContext().SaveChanges();
-                    MessageBox.Show("Данные удалены");
-                    DGrid_MedicalCard.ItemsSource = ClinicEntities.GetContext().Medical_card.ToList();
+
+                    MessageBox.Show("Данные удалены.");
+
+                    UpdAppRes();
                 }
                 catch (Exception ex)
                 {

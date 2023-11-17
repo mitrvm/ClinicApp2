@@ -24,6 +24,12 @@ namespace ClinicApp
         public DischargePage()
         {
             InitializeComponent();
+            UpdDis();
+            
+        }
+
+        private void UpdDis()
+        {
             var currentDis = ClinicEntities.GetContext().Discharges.ToList();
 
             MainWindow ugh = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
@@ -50,18 +56,32 @@ namespace ClinicApp
 
         }
 
+
         private void Btn_DelDis_Click(object sender, RoutedEventArgs e)
         {
-            var disForRemoving = DGrid_Discharges.SelectedItems.Cast<Discharges>().ToList();
+            
 
-            if (MessageBox.Show($"Вы точно хотите удалить следующие {disForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            var DisForRemoving = DGrid_Discharges.SelectedItems;
+            var DisData = ClinicEntities.GetContext().Discharges.ToList();
+            List<Discharges> exList = new List<Discharges>();
+
+            foreach (var expense in DisData)
+            {
+                int idStarts = Convert.ToInt32(expense.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }));
+                exList.Add(DisData.Find(p => p.ID == idStarts));
+            }
+
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {exList.Count()} элементов?", "Внимание",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    ClinicEntities.GetContext().Discharges.RemoveRange(disForRemoving);
+                    ClinicEntities.GetContext().Discharges.RemoveRange(exList);
                     ClinicEntities.GetContext().SaveChanges();
-                    MessageBox.Show("Данные удалены");
-                    DGrid_Discharges.ItemsSource = ClinicEntities.GetContext().Discharges.ToList();
+
+                    MessageBox.Show("Данные удалены.");
+                    UpdDis();
+                
                 }
                 catch (Exception ex)
                 {
