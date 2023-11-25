@@ -79,12 +79,12 @@ namespace ClinicApp.TablePages
             {
                 try
                 {
-                    ClinicEntities.GetContext().Appointment_results.RemoveRange(exList);
+                    ClinicEntities.GetContext().Medical_card.RemoveRange(exList);
                     ClinicEntities.GetContext().SaveChanges();
 
                     MessageBox.Show("Данные удалены.");
 
-                    UpdAppRes();
+                    UpdMCard();
                 }
                 catch (Exception ex)
                 {

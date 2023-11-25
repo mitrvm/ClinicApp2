@@ -74,9 +74,9 @@ namespace ClinicApp.TablePages
             var EmpData = ClinicEntities.GetContext().Employees.ToList();
             List<Employees> exList = new List<Employees>();
 
-            foreach (var expense in EmpData)
+            foreach (var employee in EmpForRemoving)
             {
-                int idStarts = Convert.ToInt32(expense.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }));
+                int idStarts = Convert.ToInt32(employee.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }));
                 exList.Add(EmpData.Find(p => p.ID == idStarts));
             }
 

@@ -65,7 +65,7 @@ namespace ClinicApp
             var DisData = ClinicEntities.GetContext().Discharges.ToList();
             List<Discharges> exList = new List<Discharges>();
 
-            foreach (var expense in DisData)
+            foreach (var expense in DisForRemoving)
             {
                 int idStarts = Convert.ToInt32(expense.ToString().Substring(7).Split()[0].Trim(new char[] { ',' }));
                 exList.Add(DisData.Find(p => p.ID == idStarts));
